@@ -7,7 +7,7 @@ use URI::Escape qw/uri_escape/;
 use LWP::UserAgent;
 use XML::Simple qw/XMLin/;
 
-our $VERSION = '0.01';
+our $VERSION = '0.02';
 
 sub new {
     my $class = shift;
@@ -183,7 +183,7 @@ All those arguments can be passed into Business::Eway->new() or pass into $eway-
 
 The amount of the transaction in dollar form 
  
-(ie ￡27.00 transaction would have a Amount value of "27.00")
+(ie $27.00 transaction would have a Amount value of "27.00")
 
 =item * C<Currency> (required)
 
@@ -292,8 +292,7 @@ request a URL to https://payment.ewaygateway.com/Request and parse the XML into 
 
     $VAR1 = \{
         'Error' => {},
-        'URI' => 'https://payment.ewaygateway.com/UK1/PaymentPage.aspx?value
-=mwm4VNOrYQ1o5CDLtxXnLea3vOB0lrnoEKpoFQkgRXgRPoAdrt',
+        'URI' => 'https://payment.ewaygateway.com/UK1/PaymentPage.aspx?value=mwm4VNOrYQ1o5CDLtxXnLea3vOB0lrnoEKpoFQkgRXgRPoAdrt',
         'Result' => 'True'
     };
 
@@ -308,7 +307,9 @@ Usually you need redirect to the $rtn->{URI} when Result is True (or $url_or_err
     } else {
         print "Transaction Failed!\n";
     }
-    foreach my $k ('TrxnStatus', 'AuthCode', 'ResponseCode', 'ReturnAmount', 'TrxnNumber', 'TrxnResponseMessage', 'MerchantOption1', 'MerchantOption2', 'MerchantOption3', 'MerchantInvoice', 'MerchantReference') {
+    foreach my $k ('TrxnStatus', 'AuthCode', 'ResponseCode', 'ReturnAmount', 'TrxnNumber', 
+    'TrxnResponseMessage', 'MerchantOption1', 'MerchantOption2', 'MerchantOption3', 
+    'MerchantInvoice', 'MerchantReference') {
         print "$k: $rtn->{$k}\n";
     }
 
@@ -332,6 +333,10 @@ and you can get the C<MerchantOption1> in
 
     my $rtn = $eway->result($AccessPaymentCode);
     my $cart_id = $rtn->{MerchantOption1}
+
+=head1 EXAMPLES
+
+There is 'examples' directory in the .tar.gz in case you want to have a check.
 
 =head1 SEE ALSO
 
