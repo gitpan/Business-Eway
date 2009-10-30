@@ -1,5 +1,8 @@
 Revision history for Business-Eway
 
+0.03    2009.10.30
+        SuppressEmpty => undef in XMLin
+
 0.02    2009.10.29
         POD updates
 

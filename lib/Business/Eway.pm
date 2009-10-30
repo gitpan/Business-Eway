@@ -7,7 +7,7 @@ use URI::Escape qw/uri_escape/;
 use LWP::UserAgent;
 use XML::Simple qw/XMLin/;
 
-our $VERSION = '0.02';
+our $VERSION = '0.03';
 
 sub new {
     my $class = shift;
@@ -38,7 +38,7 @@ sub request {
         croak $resp->status_line;
     }
     my $content = $resp->content;
-    my $rtn = XMLin($content);
+    my $rtn = XMLin($content, SuppressEmpty => undef);
     if (wantarray) {
         if ( $rtn->{Result} eq 'True' ) {
             return (1, $rtn->{URI});
@@ -103,7 +103,7 @@ sub result {
         croak $resp->status_line;
     }
     my $content = $resp->content;
-    return XMLin($content);
+    return XMLin($content, SuppressEmpty => undef);
 }
 
 sub result_url {
@@ -292,7 +292,7 @@ request a URL to https://payment.ewaygateway.com/Request and parse the XML into 
 
     $VAR1 = \{
         'Error' => {},
-        'URI' => 'https://payment.ewaygateway.com/UK1/PaymentPage.aspx?value=mwm4VNOrYQ1o5CDLtxXnLea3vOB0lrnoEKpoFQkgRXgRPoAdrt',
+        'URI' => 'https://payment.ewaygateway.com/UK1/PaymentPage.aspx?value=mwm4VNOrYxxxxxx',
         'Result' => 'True'
     };
 
